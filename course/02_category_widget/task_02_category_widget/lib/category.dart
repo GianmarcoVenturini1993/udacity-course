@@ -5,6 +5,7 @@
 // To keep your imports tidy, follow the ordering guidelines at
 // https://www.dartlang.org/guides/language/effective-dart/style#ordering
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 /// A custom [Category] widget.
 ///
@@ -15,8 +16,20 @@ class Category extends StatelessWidget {
   ///
   /// A [Category] saves the name of the Category (e.g. 'Length'), its color for
   /// the UI, and the icon that represents it (e.g. a ruler).
-  // TODO: You'll need the name, color, and iconLocation from main.dart
-  const Category();
+
+  final String name;
+  final ColorSwatch color;
+  final IconData icon;
+
+  const Category({
+    Key key,
+    @required this.name,
+    @required this.icon,
+    @required this.color
+  })  :   assert (name != null),
+          assert (icon != null),
+          assert (color != null),
+          super(key : key);
 
   /// Builds a custom widget that shows [Category] information.
   ///
