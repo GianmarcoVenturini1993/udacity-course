@@ -102,7 +102,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
       title: Text(
         'Unit Converter',
         style: TextStyle(
-          color: Colors.black,
+          color: Color.fromARGB(0xFF, 0x42, 0xA5, 0xF5),
           fontSize: 30.0,
         ),
       ),
