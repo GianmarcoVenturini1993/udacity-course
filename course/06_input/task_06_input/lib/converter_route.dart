@@ -176,38 +176,72 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Create the 'input' group of widgets. This is a Column that includes
-    // includes the output value, and 'from' unit [Dropdown].
-
-    // TODO: Create a compare arrows icon.
-
-    // TODO: Create the 'output' group of widgets. This is a Column that
-
-    // TODO: Return the input, arrows, and output widgets, wrapped in
-
-    // TODO: Delete the below placeholder code
-    final unitWidgets = widget.units.map((Unit unit) {
-      return Container(
-        color: widget.color,
-        margin: EdgeInsets.all(8.0),
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              unit.name,
-              style: Theme.of(context).textTheme.headline,
+    final input = Padding(
+      padding: _padding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          TextField(
+            style: Theme.of(context).textTheme.display1,
+            decoration: InputDecoration(
+              labelStyle: Theme.of(context).textTheme.display1,
+              errorText: _showValidationError ? 'Invalid number entered' : null,
+              labelText: 'Input',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
             ),
-            Text(
-              'Conversion: ${unit.conversion}',
-              style: Theme.of(context).textTheme.subhead,
-            ),
-          ],
-        ),
-      );
-    }).toList();
+            keyboardType: TextInputType.number,
+            onChanged: _updateInputValue,
+          ),
+          _createDropdown(_fromValue.name, _updateFromConversion),
+        ],
+      ),
+    );
 
-    return ListView(
-      children: unitWidgets,
+    final arrows = RotatedBox(
+      quarterTurns: 1,
+      child: Icon(
+        Icons.compare_arrows,
+        size: 40.0,
+      ),
+    );
+
+    final output = Padding(
+      padding: _padding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          InputDecorator(
+            child: Text(
+              _convertedValue,
+              style: Theme.of(context).textTheme.display1,
+            ),
+            decoration: InputDecoration(
+              labelText: 'Output',
+              labelStyle: Theme.of(context).textTheme.display1,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
+            ),
+          ),
+          _createDropdown(_toValue.name, _updateToConversion),
+        ],
+      ),
+    );
+
+    final converter = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        input,
+        arrows,
+        output,
+      ],
+    );
+
+    return Padding(
+      padding: _padding,
+      child: converter,
     );
   }
 }
