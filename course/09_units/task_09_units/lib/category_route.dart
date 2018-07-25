@@ -102,17 +102,17 @@ class _CategoryRouteState extends State<CategoryRoute> {
     }
   }
 
-  // TODO: Uncomment this out. We use didChangeDependencies() so that we can
+  // Uncomment this out. We use didChangeDependencies() so that we can
   // wait for our JSON asset to be loaded in (async).
-  //  @override
-  //  Future<void> didChangeDependencies() async {
-  //    super.didChangeDependencies();
-  //    // We have static unit conversions located in our
-  //    // assets/data/regular_units.json
-  //    if (_categories.isEmpty) {
-  //      await _retrieveLocalCategories();
-  //    }
-  //  }
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    // We have static unit conversions located in our
+    // assets/data/regular_units.json
+    if (_categories.isEmpty) {
+      await _retrieveLocalCategories();
+    }
+  }
 
   /// Retrieves a list of [Categories] and their [Unit]s
   Future<void> _retrieveLocalCategories() async {
@@ -125,7 +125,24 @@ class _CategoryRouteState extends State<CategoryRoute> {
     if (data is! Map) {
       throw ('Data retrieved from API is not a Map');
     }
-    // TODO: Create Categories and their list of Units, from the JSON asset
+    var categoryIndex = 0;
+    data.keys.forEach((key) {
+      final List<Unit> units =data[key].map<Unit>((dynamic data) => Unit.fromJson(data)).toList();
+
+      var category = Category(
+        name: key,
+        units: units,
+        color: _baseColors[categoryIndex],
+        iconLocation: Icons.account_balance,
+      );
+      setState(() {
+        if (categoryIndex == 0) {
+          _defaultCategory = category;
+        }
+        _categories.add(category);
+      });
+      categoryIndex += 1;
+    });
   }
 
   /// Function to call when a [Category] is tapped.
