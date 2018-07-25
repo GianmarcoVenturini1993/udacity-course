@@ -83,25 +83,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     }),
   ];
 
-  // TODO: Remove the overriding of initState(). Instead, we use
-  // didChangeDependencies()
-  @override
-  void initState() {
-    super.initState();
-    for (var i = 0; i < _categoryNames.length; i++) {
-      var category = Category(
-        name: _categoryNames[i],
-        color: _baseColors[i],
-        iconLocation: Icons.cake,
-        units: _retrieveUnitList(_categoryNames[i]),
-      );
-      if (i == 0) {
-        _defaultCategory = category;
-      }
-      _categories.add(category);
-    }
-  }
-
   // Uncomment this out. We use didChangeDependencies() so that we can
   // wait for our JSON asset to be loaded in (async).
   @override
@@ -179,20 +160,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
         }).toList(),
       );
     }
-  }
-
-  // TODO: Delete this function; instead, read in the units from the JSON asset
-  // inside _retrieveLocalCategories()
-  /// Returns a list of mock [Unit]s.
-  List<Unit> _retrieveUnitList(String categoryName) {
-    // when the app first starts up
-    return List.generate(10, (int i) {
-      i += 1;
-      return Unit(
-        name: '$categoryName Unit $i',
-        conversion: i.toDouble(),
-      );
-    });
   }
 
   @override
